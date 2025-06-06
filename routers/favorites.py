@@ -4,10 +4,10 @@ from aiogram.filters import Command
 from aiogram import F
 from services.favorites_storage import FavoritesStorage
 from aiogram.utils.keyboard import InlineKeyboardBuilder
-from services.api_client import WeatherClient
+from services.api_client import ExplanationClient
 
 router = Router()
-mal_client = WeatherClient()
+mal_client = ExplanationClient()
 
 # инициализируем хранилище (файл рядом с bot.py: storage/favorites.json)
 storage = FavoritesStorage("storage/favorites.json")
@@ -46,7 +46,7 @@ async def cmd_change_word(query: CallbackQuery):
     if len(word) < 2:
         return await query.message.answer("You need to write a word /word buy")
 
-    response = await mal_client.get_weather(word)
+    response = await mal_client.get_explanation(word)
     try:
         response = response[0]
         return await query.message.answer(f"Word {response['word']}\ndefinition: {response['meanings'][0]['definitions'][0]['definition']}")   
