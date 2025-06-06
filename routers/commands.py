@@ -25,5 +25,5 @@ async def start_command(message: Message):
         "/add_fav <word> - add a word to favorites\n"
         "/del_fav <word> - delete a city to favorites\n"
         "/help - list of commands\n"
-        "/suppor t- send a message to support"
+        "/support - send a message to support"
     )
