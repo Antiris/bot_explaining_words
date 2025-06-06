@@ -16,7 +16,7 @@ async def start_command(message: Message):
     logging.info(f"User {message.from_user.id} called /start")
 
 @router.message(Command("help"))
-async def start_command(message: Message):
+async def help_command(message: Message):
     await message.answer(
         "Команды:\n"
         "/start - Greetings\n"
