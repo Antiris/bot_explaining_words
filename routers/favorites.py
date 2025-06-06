@@ -58,7 +58,7 @@ async def cmd_change_word(query: CallbackQuery):
 async def cmd_remove_fav(message: Message):
     parts = message.text.split(maxsplit=1)
     if len(parts) < 2:
-        return await message.reply("You need to write a word: /del_fav buy buy")
+        return await message.reply("You need to write a word: /del_fav buy")
     word = parts[1].strip()
     await storage.remove(message.from_user.id, word)
     await message.reply(f"❌ Word {word} deleted from favorites.")
