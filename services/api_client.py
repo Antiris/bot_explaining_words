@@ -2,7 +2,7 @@ import time
 import aiohttp
 from aiohttp import ClientError, ClientTimeout
 
-class WeatherClient:
+class ExplanationClient:
     def __init__(self: str, cache_ttl: int = 30000000000000, timeout: int = 10):
         self.base_url = "https://api.dictionaryapi.dev/api/v2/entries/en"
         self.timeout = timeout  # Таймаут запроса в секундах
@@ -10,7 +10,7 @@ class WeatherClient:
         self._wheater_cache: dict[str, tuple[float, dict]] = {}  # word -> (timestamp, data)
         self.cache_ttl = cache_ttl  # Время жизни кэша в секундах
 
-    async def get_weather(self, word: str) -> dict:
+    async def get_explanation(self, word: str) -> dict:
         now = time.time()
 
         # Проверка кэша
@@ -19,13 +19,11 @@ class WeatherClient:
             if now - ts < self.cache_ttl:
                 return data
 
-        #try:
-        if 1:
+        try:
             # Создаем клиент с таймаутом
             timeout = ClientTimeout(total=self.timeout)
             async with aiohttp.ClientSession(timeout=timeout) as session:
-                #try:
-                if 1:
+                try:
                     async with session.get(
                         f"{self.base_url}/{word}"
                     ) as response:
@@ -34,10 +32,10 @@ class WeatherClient:
                         self._wheater_cache[word] = (now, data)
                         return data
                         
-                #except ClientError as e:
-                    # Обработка ошибок соединения/таймаута
-                    #raise Exception(f"Failed to get weather data: {str(e)}")
+                except ClientError as e:
+                    # исключения соединения или таймаута
+                    raise Exception(f"Failed to get weather data: {str(e)}")
                     
-        #except Exception as e:
-            # Обработка других исключений
-            #raise Exception(f"Unexpected error occurred: {str(e)}")
+        except Exception as e:
+            # другие ошибки
+            raise Exception(f"Unexpected error occurred: {str(e)}")
