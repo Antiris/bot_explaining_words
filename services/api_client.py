@@ -7,15 +7,15 @@ class ExplanationClient:
         self.base_url = "https://api.dictionaryapi.dev/api/v2/entries/en"
         self.timeout = timeout  # Таймаут запроса в секундах
 
-        self._wheater_cache: dict[str, tuple[float, dict]] = {}  # word -> (timestamp, data)
+        self.cache: dict[str, tuple[float, dict]] = {}  # word -> (timestamp, data)
         self.cache_ttl = cache_ttl  # Время жизни кэша в секундах
 
     async def get_explanation(self, word: str) -> dict:
         now = time.time()
 
         # Проверка кэша
-        if word in self._wheater_cache:
-            ts, data = self._wheater_cache[word]
+        if word in self.cache:
+            ts, data = self.cache[word]
             if now - ts < self.cache_ttl:
                 return data
 
@@ -29,7 +29,7 @@ class ExplanationClient:
                     ) as response:
                         data = await response.json()
                         # Сохраняем в кэш, если ответ корректный
-                        self._wheater_cache[word] = (now, data)
+                        self.cache[word] = (now, data)
                         return data
                         
                 except ClientError as e:
