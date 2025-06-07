@@ -34,7 +34,7 @@ class ExplanationClient:
                         
                 except ClientError as e:
                     # исключения соединения или таймаута
-                    raise Exception(f"Failed to get weather data: {str(e)}")
+                    raise Exception(f"Failed to get data: {str(e)}")
                     
         except Exception as e:
             # другие ошибки
