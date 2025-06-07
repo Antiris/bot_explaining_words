@@ -20,4 +20,5 @@ telegram-api-key="Токен бота"
 
 admins=[user_id]
 
-5. Запустить файл bot.py
+5. Скачать все модули из requirements.txt
+6. Запустить файл bot.py
